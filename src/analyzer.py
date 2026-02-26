@@ -12,6 +12,9 @@ import hashlib
 from pathlib import Path
 from typing import Optional
 from .types import AudioFeatures
+from .logger import get_logger
+
+logger = get_logger("audio_visualizer.analyzer")
 
 
 class AudioAnalyzer:
@@ -40,7 +43,7 @@ class AudioAnalyzer:
         cache_path = self._get_cache_path(audio_path, fps)
         
         if not force_reanalyze and cache_path.exists():
-            print(f"[Cache] Lade Features für {audio_path}...")
+            logger.info(f"[Cache] Lade Features für {Path(audio_path).name}...")
             data = np.load(cache_path, allow_pickle=True)
             
             # Konvertiere geladene Daten zurück
@@ -48,14 +51,14 @@ class AudioAnalyzer:
             for k in data.files:
                 val = data[k]
                 # Konvertiere numpy-Strings zurück zu Python-Strings
-                if isinstance(val, np.ndarray) and val.dtype.kind == 'U':
+                if isinstance(val, np.ndarray) and val.dtype.char == 'U':
                     loaded_data[k] = str(val.item())
                 else:
                     loaded_data[k] = val
             
             return AudioFeatures(**loaded_data)
         
-        print(f"[Analyze] Verarbeite {audio_path}...")
+        logger.info(f"[Analyze] Verarbeite {Path(audio_path).name}...")
         y, sr = librosa.load(audio_path, sr=None, mono=True)
         duration = librosa.get_duration(y=y, sr=sr)
         
@@ -128,7 +131,7 @@ class AudioAnalyzer:
         onset_std = np.std(onset_env)
         try:
             spec_bw = librosa.feature.spectral_bandwidth(y=y, sr=sr).mean()
-        except:
+        except Exception:
             spec_bw = 2000
         is_music = (tempo > 60) and (onset_std > 0.1) and (spec_bw > 2000)
         return "music" if is_music else "speech"

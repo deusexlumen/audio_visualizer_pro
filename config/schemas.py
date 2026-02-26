@@ -4,15 +4,15 @@ schemas.py - Validierung für Konfigurationsdateien
 Pydantic-Schemas für die Validierung von Config-JSONs.
 """
 
-from pydantic import BaseModel, Field, validator
+from pydantic import BaseModel, Field, field_validator
 from typing import Dict, List, Optional, Tuple, Literal
 
 
 class ColorConfig(BaseModel):
     """Farb-Konfiguration."""
-    primary: str = Field(default="#FF0055", regex=r"^#[0-9A-Fa-f]{6}$")
-    secondary: str = Field(default="#00CCFF", regex=r"^#[0-9A-Fa-f]{6}$")
-    background: str = Field(default="#0A0A0A", regex=r"^#[0-9A-Fa-f]{6}$")
+    primary: str = Field(default="#FF0055", pattern=r"^#[0-9A-Fa-f]{6}$")
+    secondary: str = Field(default="#00CCFF", pattern=r"^#[0-9A-Fa-f]{6}$")
+    background: str = Field(default="#0A0A0A", pattern=r"^#[0-9A-Fa-f]{6}$")
 
 
 class VisualParams(BaseModel):
@@ -39,14 +39,22 @@ class VisualConfigSchema(BaseModel):
         "spectrum_bars",
         "chroma_field",
         "particle_swarm",
-        "typographic"
+        "typographic",
+        "neon_oscilloscope",
+        "sacred_mandala",
+        "liquid_blobs",
+        "neon_wave_circle",
+        "frequency_flower",
+        "waveform_line",
+        "3d_spectrum",
+        "circular_wave"
     ]
     resolution: List[int] = Field(default=[1920, 1080], min_items=2, max_items=2)
     fps: int = Field(default=60, ge=24, le=120)
     colors: ColorConfig = Field(default_factory=ColorConfig)
     params: VisualParams = Field(default_factory=VisualParams)
     
-    @validator('resolution')
+    @field_validator('resolution')
     def validate_resolution(cls, v):
         if v[0] < 320 or v[1] < 240:
             raise ValueError("Auflösung zu klein (min 320x240)")
@@ -73,14 +81,14 @@ class ProjectConfigSchema(BaseModel):
     visual: VisualConfigSchema
     postprocess: PostProcessConfig = Field(default_factory=PostProcessConfig)
     
-    @validator('audio_file')
+    @field_validator('audio_file')
     def validate_audio_file(cls, v):
         valid_extensions = ['.mp3', '.wav', '.flac', '.aac', '.ogg', '.m4a']
         if not any(v.lower().endswith(ext) for ext in valid_extensions):
             raise ValueError(f"Audio-Datei muss eine der Endungen haben: {valid_extensions}")
         return v
     
-    @validator('output_file')
+    @field_validator('output_file')
     def validate_output_file(cls, v):
         if not v.lower().endswith('.mp4'):
             raise ValueError("Output-Datei muss .mp4 Endung haben")

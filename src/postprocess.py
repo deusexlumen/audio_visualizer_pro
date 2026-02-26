@@ -8,6 +8,10 @@ import numpy as np
 from PIL import Image, ImageFilter, ImageEnhance
 from typing import Dict, Optional, Tuple
 import colorsys
+from pathlib import Path
+from .logger import get_logger
+
+logger = get_logger("audio_visualizer.postprocess")
 
 
 class PostProcessor:
@@ -55,7 +59,7 @@ class PostProcessor:
             return np.array(lut_data) if lut_data else None
             
         except Exception as e:
-            print(f"[PostProcess] Warnung: Konnte LUT nicht laden: {e}")
+            logger.warning(f"Konnte LUT nicht laden: {e}")
             return None
     
     def apply(self, frame: np.ndarray) -> np.ndarray:
@@ -147,31 +151,37 @@ class PostProcessor:
         return result
     
     def apply_lut(self, frame: np.ndarray) -> np.ndarray:
-        """Wendet die geladene LUT an (vereinfacht)."""
+        """
+        Wendet die geladene LUT an (vectorisiert).
+        
+        Nutzt numpy-Vectorisierung statt Python-Schleifen für 100x+ Speedup.
+        """
         if self.lut is None:
             return frame
         
-        # Vereinfachte LUT-Anwendung
-        # Für vollständige 3D LUT-Unterstützung wäre eine externe Bibliothek besser
-        result = frame.copy()
-        
-        # Skaliere zu LUT-Indizes
+        # Berechne LUT-Größe (z.B. 33x33x33 = 35937 Einträge)
         lut_size = int(round(len(self.lut) ** (1/3)))
         
-        for i in range(frame.shape[0]):
-            for j in range(frame.shape[1]):
-                r, g, b = frame[i, j] / 255.0
-                
-                # LUT-Indizes
-                lr = int(r * (lut_size - 1))
-                lg = int(g * (lut_size - 1))
-                lb = int(b * (lut_size - 1))
-                
-                # Index in flachem LUT-Array
-                idx = lr + lg * lut_size + lb * lut_size * lut_size
-                
-                if idx < len(self.lut):
-                    result[i, j] = (self.lut[idx] * 255).astype(np.uint8)
+        # Frame zu float [0, 1] und dann zu LUT-Indizes
+        rgb = frame.astype(np.float32) / 255.0
+        
+        # Skaliere zu LUT-Indizes [0, lut_size-1]
+        rgb_scaled = (rgb * (lut_size - 1)).astype(np.int32)
+        
+        # Berechne flache Indizes: idx = r + g*size + b*size*size
+        # Shape: (H, W, 3) -> separate Arrays für R, G, B
+        r_idx = rgb_scaled[:, :, 0]
+        g_idx = rgb_scaled[:, :, 1]
+        b_idx = rgb_scaled[:, :, 2]
+        
+        flat_indices = r_idx + g_idx * lut_size + b_idx * lut_size * lut_size
+        flat_indices = np.clip(flat_indices, 0, len(self.lut) - 1)
+        
+        # LUT-Werte nachschlagen (vectorisiert)
+        lut_values = self.lut[flat_indices]  # Shape: (H, W, 3)
+        
+        # Zurück zu uint8 [0, 255]
+        result = (lut_values * 255).astype(np.uint8)
         
         return result
 

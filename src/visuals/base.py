@@ -9,6 +9,9 @@ import numpy as np
 from PIL import Image, ImageDraw, ImageFont
 from typing import Dict, Any, Tuple
 from ..types import AudioFeatures, VisualConfig
+from ..logger import get_logger
+
+logger = get_logger("audio_visualizer.visuals")
 
 
 class BaseVisualizer(ABC):
@@ -47,10 +50,13 @@ class BaseVisualizer(ABC):
         
         for path in font_paths:
             try:
-                return ImageFont.truetype(path, size)
-            except:
+                font = ImageFont.truetype(path, size)
+                logger.debug(f"Font geladen: {path}")
+                return font
+            except Exception:
                 continue
         
+        logger.warning("Kein System-Font gefunden, verwende Default")
         return ImageFont.load_default()
     
     def _parse_colors(self, color_config: Dict[str, str]) -> Dict[str, Tuple[int, int, int, int]]:

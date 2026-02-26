@@ -91,8 +91,10 @@ def test_visualizer_registry():
     available = VisualizerRegistry.list_available()
     print(f"\nVerfügbare Visualizer: {available}")
     
-    # Sollte mindestens die 5 Standard-Visualizer haben
-    expected = ['pulsing_core', 'spectrum_bars', 'chroma_field', 'particle_swarm', 'typographic']
+    # Sollte alle 13 Visualizer haben
+    expected = ['pulsing_core', 'spectrum_bars', 'chroma_field', 'particle_swarm', 'typographic',
+                'neon_oscilloscope', 'sacred_mandala', 'liquid_blobs', 'neon_wave_circle', 'frequency_flower',
+                'waveform_line', '3d_spectrum', 'circular_wave']
     for vis in expected:
         assert vis in available, f"Visualizer '{vis}' nicht gefunden!"
 

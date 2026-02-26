@@ -8,6 +8,9 @@ import importlib
 import pkgutil
 from typing import Dict, Type
 from .base import BaseVisualizer
+from ..logger import get_logger
+
+logger = get_logger("audio_visualizer.registry")
 
 
 class VisualizerRegistry:
@@ -41,7 +44,7 @@ class VisualizerRegistry:
             try:
                 importlib.import_module(f"src.visuals.{name}")
             except Exception as e:
-                print(f"[Registry] Warnung: Konnte {name} nicht laden: {e}")
+                logger.warning(f"Konnte Visualizer '{name}' nicht laden: {e}")
 
 
 # Decorator-Export für einfache Verwendung

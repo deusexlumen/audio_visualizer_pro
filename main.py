@@ -21,14 +21,20 @@ def cli():
 @cli.command()
 @click.argument('audio_file', type=click.Path(exists=True))
 @click.option('--visual', '-v', default='pulsing_core', 
-              help='Visualisierungs-Typ (pulsing_core, spectrum_bars, chroma_field, particle_swarm, typographic)')
+              help='Visualisierungs-Typ')
 @click.option('--output', '-o', default='output.mp4')
 @click.option('--config', '-c', type=click.Path(), help='JSON Config-File')
 @click.option('--resolution', '-r', default='1920x1080')
 @click.option('--fps', default=60, type=int)
 @click.option('--preview', is_flag=True, help='Schnelle 5-Sekunden-Vorschau')
 @click.option('--preview-duration', default=5.0, type=float, help='Dauer der Vorschau in Sekunden')
-def render(audio_file, visual, output, config, resolution, fps, preview, preview_duration):
+@click.option('--parallel', '-p', is_flag=True, help='[EXPERIMENTAL] Paralleles Rendering')
+@click.option('--workers', '-w', default=None, type=int, help='Anzahl Worker für paralleles Rendering')
+@click.option('--profile', '-P', default=None, 
+              type=click.Choice(['youtube', 'youtube_4k', 'instagram_feed', 'instagram_reels', 
+                                'tiktok', 'tiktok_hd', 'custom']),
+              help='Export-Profil für Zielplattform')
+def render(audio_file, visual, output, config, resolution, fps, preview, preview_duration, parallel, workers, profile):
     """Rendert Audio-Visualisierung."""
     
     # Config aufbauen
@@ -49,12 +55,25 @@ def render(audio_file, visual, output, config, resolution, fps, preview, preview
             )
         )
     
+    # Export-Profil laden
+    export_profile = None
+    if profile:
+        from src.export_profiles import get_profile, Platform
+        try:
+            platform = Platform(profile)
+            export_profile = get_profile(platform)
+            click.echo(f"[Export-Profil] {export_profile.name}")
+            click.echo(f"  Auflösung: {export_profile.resolution[0]}x{export_profile.resolution[1]}")
+            click.echo(f"  FPS: {export_profile.fps}")
+        except ValueError:
+            click.echo(f"Warnung: Unbekanntes Profil '{profile}'", err=True)
+    
     # Pipeline starten
     if preview:
-        pipeline = PreviewPipeline(project_config)
+        pipeline = PreviewPipeline(project_config, parallel=parallel, num_workers=workers)
         pipeline.run(preview_mode=True, preview_duration=preview_duration)
     else:
-        pipeline = RenderPipeline(project_config)
+        pipeline = RenderPipeline(project_config, parallel=parallel, num_workers=workers, export_profile=export_profile)
         pipeline.run(preview_mode=False)
 
 
@@ -189,6 +208,69 @@ def create_config(output):
         json.dump(config, f, indent=2)
     
     click.echo(f"Konfigurations-Template erstellt: {output}")
+
+
+@cli.command()
+def check():
+    """Überprüft System-Voraussetzungen (FFmpeg, etc.)."""
+    from src.utils import check_ffmpeg
+    from src.settings import get_settings
+    
+    click.echo("=== Audio Visualizer Pro - System-Check ===\n")
+    
+    # FFmpeg-Check
+    success, message = check_ffmpeg()
+    if success:
+        click.echo(f"[OK] FFmpeg: {message}")
+    else:
+        click.echo(f"[FAIL] FFmpeg: {message}")
+        click.echo("  -> Installation: https://ffmpeg.org/download.html")
+    
+    # Cache-Status
+    settings = get_settings()
+    cache_size = settings.get_cache_size_mb()
+    click.echo(f"\n[OK] Cache-Verzeichnis: {settings.cache_dir}")
+    click.echo(f"  Groesse: {cache_size:.1f} MB / {settings.max_cache_size_gb * 1024:.0f} MB")
+    
+    # Verfügbare Visualizer
+    from src.visuals.registry import VisualizerRegistry
+    VisualizerRegistry.autoload()
+    visuals = VisualizerRegistry.list_available()
+    click.echo(f"\n[OK] Visualizer geladen: {len(visuals)}")
+    for v in visuals:
+        click.echo(f"  - {v}")
+
+
+@cli.command()
+@click.option('--yes', '-y', is_flag=True, help='Bestätigung überspringen')
+def clear_cache(yes):
+    """Leert den Audio-Features-Cache."""
+    from src.utils import clear_cache, get_cache_size
+    from src.settings import get_settings
+    
+    settings = get_settings()
+    _, size_str = get_cache_size(settings.cache_dir)
+    
+    if not yes:
+        click.confirm(
+            f"Cache löschen? (Aktuelle Größe: {size_str})",
+            abort=True
+        )
+    
+    deleted = clear_cache(settings.cache_dir)
+    click.echo(f"[OK] {deleted} Cache-Dateien geloescht")
+
+
+@cli.command('env-template')
+@click.option('--output', '-o', default='.env.example')
+def create_env_template(output):
+    """Erstellt eine Beispiel-.env-Datei."""
+    from src.settings import Settings
+    
+    settings = Settings()
+    path = settings.create_env_template(Path(output))
+    click.echo(f"Env-Template erstellt: {path}")
+    click.echo("Kopiere nach .env und passe die Werte an.")
 
 
 if __name__ == '__main__':
