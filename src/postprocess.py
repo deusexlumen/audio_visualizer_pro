@@ -5,9 +5,8 @@ Nachbearbeitung der gerenderten Frames mit verschiedenen Effekten.
 """
 
 import numpy as np
-from PIL import Image, ImageFilter, ImageEnhance
-from typing import Dict, Optional, Tuple
-import colorsys
+from PIL import Image, ImageEnhance
+from typing import Dict, Optional
 from pathlib import Path
 from .logger import get_logger
 
@@ -17,7 +16,7 @@ logger = get_logger("audio_visualizer.postprocess")
 class PostProcessor:
     """
     Post-Processing für gerenderte Frames.
-    
+
     Unterstützt:
     - LUTs (Color Lookup Tables)
     - Film Grain
@@ -25,164 +24,164 @@ class PostProcessor:
     - Vignette
     - Kontrast/Sättigung
     """
-    
+
     def __init__(self, config: Dict):
         self.config = config
-        self.lut = self._load_lut(config.get('lut'))
-        self.grain_intensity = config.get('grain', 0.0)
-        self.chromatic = config.get('chromatic_aberration', 0.0)
-        self.vignette = config.get('vignette', 0.0)
-        self.contrast = config.get('contrast', 1.0)
-        self.saturation = config.get('saturation', 1.0)
-        self.brightness = config.get('brightness', 1.0)
-        
+        self.lut = self._load_lut(config.get("lut"))
+        self.grain_intensity = config.get("grain", 0.0)
+        self.chromatic = config.get("chromatic_aberration", 0.0)
+        self.vignette = config.get("vignette", 0.0)
+        self.contrast = config.get("contrast", 1.0)
+        self.saturation = config.get("saturation", 1.0)
+        self.brightness = config.get("brightness", 1.0)
+
     def _load_lut(self, lut_path: Optional[str]) -> Optional[np.ndarray]:
         """Lädt eine .cube LUT-Datei."""
         if not lut_path:
             return None
-        
+
         try:
             # Einfacher 3D LUT Loader (simplified)
             # Für vollständige Unterstützung wäre eine externe Bibliothek nötig
-            with open(lut_path, 'r') as f:
+            with open(lut_path, "r") as f:
                 lines = f.readlines()
-            
+
             # Parse LUT-Daten (vereinfacht)
             lut_data = []
             for line in lines:
                 line = line.strip()
-                if line and not line.startswith('#') and not line.startswith('LUT'):
+                if line and not line.startswith("#") and not line.startswith("LUT"):
                     values = [float(v) for v in line.split()]
                     if len(values) == 3:
                         lut_data.append(values)
-            
+
             return np.array(lut_data) if lut_data else None
-            
+
         except Exception as e:
             logger.warning(f"Konnte LUT nicht laden: {e}")
             return None
-    
+
     def apply(self, frame: np.ndarray) -> np.ndarray:
         """
         Wendet alle konfigurierten Post-Processing-Effekte an.
-        
+
         Args:
             frame: RGB-Frame als numpy array (H, W, 3)
-        
+
         Returns:
             Bearbeiteter Frame
         """
         # Konvertiere zu PIL Image für einfachere Bearbeitung
         img = Image.fromarray(frame)
-        
+
         # Kontrast
         if self.contrast != 1.0:
             enhancer = ImageEnhance.Contrast(img)
             img = enhancer.enhance(self.contrast)
-        
+
         # Sättigung
         if self.saturation != 1.0:
             enhancer = ImageEnhance.Color(img)
             img = enhancer.enhance(self.saturation)
-        
+
         # Helligkeit
         if self.brightness != 1.0:
             enhancer = ImageEnhance.Brightness(img)
             img = enhancer.enhance(self.brightness)
-        
+
         # Konvertiere zurück zu numpy für weitere Bearbeitung
         result = np.array(img)
-        
+
         # Film Grain
         if self.grain_intensity > 0:
             result = self._apply_grain(result)
-        
+
         # Vignette
         if self.vignette > 0:
             result = self._apply_vignette(result)
-        
+
         # Chromatic Aberration
         if self.chromatic > 0:
             result = self._apply_chromatic_aberration(result)
-        
+
         return result
-    
+
     def _apply_grain(self, frame: np.ndarray) -> np.ndarray:
         """Fügt Film Grain hinzu."""
         noise = np.random.normal(0, self.grain_intensity * 50, frame.shape)
         grainy = frame.astype(np.float32) + noise
         return np.clip(grainy, 0, 255).astype(np.uint8)
-    
+
     def _apply_vignette(self, frame: np.ndarray) -> np.ndarray:
         """Fügt Vignette-Effekt hinzu."""
         h, w = frame.shape[:2]
-        
+
         # Erstelle Vignette-Maske
         y, x = np.ogrid[:h, :w]
         center_y, center_x = h // 2, w // 2
-        
+
         # Distanz vom Zentrum (normalisiert)
-        dist = np.sqrt((x - center_x)**2 + (y - center_y)**2)
+        dist = np.sqrt((x - center_x) ** 2 + (y - center_y) ** 2)
         max_dist = np.sqrt(center_x**2 + center_y**2)
-        
+
         # Vignette-Kurve
         vignette = 1 - (dist / max_dist) * self.vignette
         vignette = np.clip(vignette, 0.3, 1.0)
-        
+
         # Anwenden
         return (frame * vignette[:, :, np.newaxis]).astype(np.uint8)
-    
+
     def _apply_chromatic_aberration(self, frame: np.ndarray) -> np.ndarray:
         """Fügt Chromatic Aberration hinzu."""
         h, w = frame.shape[:2]
         shift = int(self.chromatic * 3)
-        
+
         if shift == 0:
             return frame
-        
+
         result = frame.copy()
-        
+
         # Rot-Kanal nach links verschieben
         result[:, :-shift, 0] = frame[:, shift:, 0]
-        
+
         # Blau-Kanal nach rechts verschieben
         result[:, shift:, 2] = frame[:, :-shift, 2]
-        
+
         return result
-    
+
     def apply_lut(self, frame: np.ndarray) -> np.ndarray:
         """
         Wendet die geladene LUT an (vectorisiert).
-        
+
         Nutzt numpy-Vectorisierung statt Python-Schleifen für 100x+ Speedup.
         """
         if self.lut is None:
             return frame
-        
+
         # Berechne LUT-Größe (z.B. 33x33x33 = 35937 Einträge)
-        lut_size = int(round(len(self.lut) ** (1/3)))
-        
+        lut_size = int(round(len(self.lut) ** (1 / 3)))
+
         # Frame zu float [0, 1] und dann zu LUT-Indizes
         rgb = frame.astype(np.float32) / 255.0
-        
+
         # Skaliere zu LUT-Indizes [0, lut_size-1]
         rgb_scaled = (rgb * (lut_size - 1)).astype(np.int32)
-        
+
         # Berechne flache Indizes: idx = r + g*size + b*size*size
         # Shape: (H, W, 3) -> separate Arrays für R, G, B
         r_idx = rgb_scaled[:, :, 0]
         g_idx = rgb_scaled[:, :, 1]
         b_idx = rgb_scaled[:, :, 2]
-        
+
         flat_indices = r_idx + g_idx * lut_size + b_idx * lut_size * lut_size
         flat_indices = np.clip(flat_indices, 0, len(self.lut) - 1)
-        
+
         # LUT-Werte nachschlagen (vectorisiert)
         lut_values = self.lut[flat_indices]  # Shape: (H, W, 3)
-        
+
         # Zurück zu uint8 [0, 255]
         result = (lut_values * 255).astype(np.uint8)
-        
+
         return result
 
 
@@ -191,45 +190,50 @@ class PostProcessPipeline:
     Pipeline für Post-Processing von Videos.
     Kann auf existierende Videos angewendet werden.
     """
-    
+
     def __init__(self, config: Dict):
         self.processor = PostProcessor(config)
-    
+
     def process_frame(self, frame: np.ndarray) -> np.ndarray:
         """Verarbeitet einen einzelnen Frame."""
         return self.processor.apply(frame)
-    
+
     def process_video(self, input_path: str, output_path: str):
         """
         Verarbeitet ein komplettes Video.
-        
+
         Args:
             input_path: Pfad zum Eingabe-Video
             output_path: Pfad zum Ausgabe-Video
         """
         import subprocess
         import tempfile
-        
+
         # Temporäre Datei
-        temp_video = tempfile.NamedTemporaryFile(suffix='.mp4', delete=False)
+        temp_video = tempfile.NamedTemporaryFile(suffix=".mp4", delete=False)
         temp_video.close()
-        
+
         try:
             # FFmpeg für Frame-Extraktion und -Rekodierung
             # Dies ist ein vereinfachtes Beispiel
             cmd = [
-                'ffmpeg', '-y',
-                '-i', input_path,
-                '-c:v', 'libx264',
-                '-preset', 'medium',
-                '-crf', '23',
-                output_path
+                "ffmpeg",
+                "-y",
+                "-i",
+                input_path,
+                "-c:v",
+                "libx264",
+                "-preset",
+                "medium",
+                "-crf",
+                "23",
+                output_path,
             ]
-            
+
             result = subprocess.run(cmd, capture_output=True, text=True)
             if result.returncode != 0:
                 raise RuntimeError(f"FFmpeg Fehler: {result.stderr}")
-                
+
         finally:
             if Path(temp_video.name).exists():
                 Path(temp_video.name).unlink()

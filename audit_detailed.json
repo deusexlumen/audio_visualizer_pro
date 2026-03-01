@@ -1,0 +1,805 @@
+{
+  "summary": {
+    "files_analyzed": 41,
+    "lines_analyzed": 11275,
+    "total_issues": 98,
+    "by_severity": {
+      "CRITICAL": 0,
+      "HIGH": 0,
+      "MEDIUM": 55,
+      "LOW": 43
+    },
+    "by_category": {
+      "SECURITY": 0,
+      "PERFORMANCE": 4,
+      "MAINTAINABILITY": 81,
+      "STYLE": 13
+    }
+  },
+  "issues": [
+    {
+      "severity": "LOW",
+      "category": "MAINTAINABILITY",
+      "file": "gui.py",
+      "line": 429,
+      "message": "Funktion 'render_video_with_progress' hat zu viele Parameter (10)",
+      "suggestion": "Datenklasse oder Config-Objekt verwenden"
+    },
+    {
+      "severity": "LOW",
+      "category": "STYLE",
+      "file": "gui.py",
+      "line": 554,
+      "message": "Zeile zu lang (133 Zeichen)",
+      "suggestion": "Auf 100-120 Zeichen umbrechen"
+    },
+    {
+      "severity": "LOW",
+      "category": "STYLE",
+      "file": "gui.py",
+      "line": 885,
+      "message": "Zeile zu lang (122 Zeichen)",
+      "suggestion": "Auf 100-120 Zeichen umbrechen"
+    },
+    {
+      "severity": "LOW",
+      "category": "PERFORMANCE",
+      "file": "gui_modern.py",
+      "line": 1438,
+      "message": "PIL Image.save() ohne Optimierung",
+      "suggestion": "optimize=True hinzufügen für kleinere Dateien"
+    },
+    {
+      "severity": "LOW",
+      "category": "PERFORMANCE",
+      "file": "gui_modern.py",
+      "line": 1504,
+      "message": "PIL Image.save() ohne Optimierung",
+      "suggestion": "optimize=True hinzufügen für kleinere Dateien"
+    },
+    {
+      "severity": "LOW",
+      "category": "STYLE",
+      "file": "gui_modern.py",
+      "line": 1015,
+      "message": "Zeile zu lang (172 Zeichen)",
+      "suggestion": "Auf 100-120 Zeichen umbrechen"
+    },
+    {
+      "severity": "LOW",
+      "category": "STYLE",
+      "file": "gui_modern.py",
+      "line": 1313,
+      "message": "Zeile zu lang (151 Zeichen)",
+      "suggestion": "Auf 100-120 Zeichen umbrechen"
+    },
+    {
+      "severity": "LOW",
+      "category": "STYLE",
+      "file": "gui_modern_fixed.py",
+      "line": 537,
+      "message": "Zeile zu lang (129 Zeichen)",
+      "suggestion": "Auf 100-120 Zeichen umbrechen"
+    },
+    {
+      "severity": "LOW",
+      "category": "STYLE",
+      "file": "gui_modern_fixed.py",
+      "line": 794,
+      "message": "Zeile zu lang (172 Zeichen)",
+      "suggestion": "Auf 100-120 Zeichen umbrechen"
+    },
+    {
+      "severity": "LOW",
+      "category": "STYLE",
+      "file": "gui_modern_fixed.py",
+      "line": 986,
+      "message": "Zeile zu lang (151 Zeichen)",
+      "suggestion": "Auf 100-120 Zeichen umbrechen"
+    },
+    {
+      "severity": "LOW",
+      "category": "MAINTAINABILITY",
+      "file": "main.py",
+      "line": 37,
+      "message": "Funktion 'render' hat zu viele Parameter (11)",
+      "suggestion": "Datenklasse oder Config-Objekt verwenden"
+    },
+    {
+      "severity": "LOW",
+      "category": "MAINTAINABILITY",
+      "file": "main.py",
+      "line": 100,
+      "message": "Offenes TODO: TODO: Beschreibung hier einfügen",
+      "suggestion": "TODO in Issue-Tracker überführen"
+    },
+    {
+      "severity": "LOW",
+      "category": "MAINTAINABILITY",
+      "file": "main.py",
+      "line": 113,
+      "message": "Offenes TODO: TODO: Beschreibung hier einfügen",
+      "suggestion": "TODO in Issue-Tracker überführen"
+    },
+    {
+      "severity": "LOW",
+      "category": "MAINTAINABILITY",
+      "file": "main.py",
+      "line": 138,
+      "message": "Offenes TODO: # TODO: Deine Zeichen-Logik hier",
+      "suggestion": "TODO in Issue-Tracker überführen"
+    },
+    {
+      "severity": "LOW",
+      "category": "STYLE",
+      "file": "src\\analyzer.py",
+      "line": 123,
+      "message": "Zeile zu lang (130 Zeichen)",
+      "suggestion": "Auf 100-120 Zeichen umbrechen"
+    },
+    {
+      "severity": "LOW",
+      "category": "STYLE",
+      "file": "src\\analyzer.py",
+      "line": 143,
+      "message": "Zeile zu lang (140 Zeichen)",
+      "suggestion": "Auf 100-120 Zeichen umbrechen"
+    },
+    {
+      "severity": "LOW",
+      "category": "STYLE",
+      "file": "src\\analyzer.py",
+      "line": 238,
+      "message": "Zeile zu lang (123 Zeichen)",
+      "suggestion": "Auf 100-120 Zeichen umbrechen"
+    },
+    {
+      "severity": "LOW",
+      "category": "STYLE",
+      "file": "src\\auto_save.py",
+      "line": 299,
+      "message": "Zeile zu lang (128 Zeichen)",
+      "suggestion": "Auf 100-120 Zeichen umbrechen"
+    },
+    {
+      "severity": "LOW",
+      "category": "PERFORMANCE",
+      "file": "src\\live_preview.py",
+      "line": 107,
+      "message": "PIL Image.save() ohne Optimierung",
+      "suggestion": "optimize=True hinzufügen für kleinere Dateien"
+    },
+    {
+      "severity": "LOW",
+      "category": "PERFORMANCE",
+      "file": "src\\live_preview.py",
+      "line": 159,
+      "message": "PIL Image.save() ohne Optimierung",
+      "suggestion": "optimize=True hinzufügen für kleinere Dateien"
+    },
+    {
+      "severity": "LOW",
+      "category": "STYLE",
+      "file": "src\\pipeline.py",
+      "line": 32,
+      "message": "Zeile zu lang (153 Zeichen)",
+      "suggestion": "Auf 100-120 Zeichen umbrechen"
+    },
+    {
+      "severity": "LOW",
+      "category": "MAINTAINABILITY",
+      "file": "src\\preset_manager.py",
+      "line": 154,
+      "message": "Funktion 'save_preset' hat zu viele Parameter (8)",
+      "suggestion": "Datenklasse oder Config-Objekt verwenden"
+    },
+    {
+      "severity": "LOW",
+      "category": "STYLE",
+      "file": "src\\visuals\\06_neon_oscilloscope.py",
+      "line": 106,
+      "message": "Zeile zu lang (125 Zeichen)",
+      "suggestion": "Auf 100-120 Zeichen umbrechen"
+    },
+    {
+      "severity": "LOW",
+      "category": "MAINTAINABILITY",
+      "file": "src\\visuals\\07_sacred_mandala.py",
+      "line": 152,
+      "message": "Funktion '_draw_polygon_ring' hat zu viele Parameter (8)",
+      "suggestion": "Datenklasse oder Config-Objekt verwenden"
+    },
+    {
+      "severity": "LOW",
+      "category": "MAINTAINABILITY",
+      "file": "src\\visuals\\07_sacred_mandala.py",
+      "line": 174,
+      "message": "Funktion '_draw_star' hat zu viele Parameter (8)",
+      "suggestion": "Datenklasse oder Config-Objekt verwenden"
+    },
+    {
+      "severity": "LOW",
+      "category": "MAINTAINABILITY",
+      "file": "src\\visuals\\09_neon_wave_circle.py",
+      "line": 144,
+      "message": "Funktion '_draw_wavy_ring' hat zu viele Parameter (10)",
+      "suggestion": "Datenklasse oder Config-Objekt verwenden"
+    },
+    {
+      "severity": "LOW",
+      "category": "MAINTAINABILITY",
+      "file": "src\\visuals\\09_neon_wave_circle.py",
+      "line": 171,
+      "message": "Funktion '_draw_particle_rays' hat zu viele Parameter (8)",
+      "suggestion": "Datenklasse oder Config-Objekt verwenden"
+    },
+    {
+      "severity": "LOW",
+      "category": "MAINTAINABILITY",
+      "file": "src\\visuals\\10_frequency_flower.py",
+      "line": 134,
+      "message": "Funktion '_draw_petal' hat zu viele Parameter (8)",
+      "suggestion": "Datenklasse oder Config-Objekt verwenden"
+    },
+    {
+      "severity": "LOW",
+      "category": "MAINTAINABILITY",
+      "file": "src\\visuals\\10_frequency_flower.py",
+      "line": 220,
+      "message": "Funktion '_draw_pollen' hat zu viele Parameter (8)",
+      "suggestion": "Datenklasse oder Config-Objekt verwenden"
+    },
+    {
+      "severity": "LOW",
+      "category": "MAINTAINABILITY",
+      "file": "start_gui.py",
+      "line": 23,
+      "message": "print() statt Logging verwendet",
+      "suggestion": "logger.info() oder logger.debug() verwenden"
+    },
+    {
+      "severity": "LOW",
+      "category": "MAINTAINABILITY",
+      "file": "start_gui.py",
+      "line": 25,
+      "message": "print() statt Logging verwendet",
+      "suggestion": "logger.info() oder logger.debug() verwenden"
+    },
+    {
+      "severity": "LOW",
+      "category": "MAINTAINABILITY",
+      "file": "start_gui.py",
+      "line": 29,
+      "message": "print() statt Logging verwendet",
+      "suggestion": "logger.info() oder logger.debug() verwenden"
+    },
+    {
+      "severity": "LOW",
+      "category": "MAINTAINABILITY",
+      "file": "start_gui.py",
+      "line": 30,
+      "message": "print() statt Logging verwendet",
+      "suggestion": "logger.info() oder logger.debug() verwenden"
+    },
+    {
+      "severity": "LOW",
+      "category": "MAINTAINABILITY",
+      "file": "start_gui.py",
+      "line": 31,
+      "message": "print() statt Logging verwendet",
+      "suggestion": "logger.info() oder logger.debug() verwenden"
+    },
+    {
+      "severity": "LOW",
+      "category": "MAINTAINABILITY",
+      "file": "start_gui.py",
+      "line": 32,
+      "message": "print() statt Logging verwendet",
+      "suggestion": "logger.info() oder logger.debug() verwenden"
+    },
+    {
+      "severity": "LOW",
+      "category": "MAINTAINABILITY",
+      "file": "start_gui.py",
+      "line": 38,
+      "message": "print() statt Logging verwendet",
+      "suggestion": "logger.info() oder logger.debug() verwenden"
+    },
+    {
+      "severity": "LOW",
+      "category": "MAINTAINABILITY",
+      "file": "start_gui.py",
+      "line": 40,
+      "message": "print() statt Logging verwendet",
+      "suggestion": "logger.info() oder logger.debug() verwenden"
+    },
+    {
+      "severity": "LOW",
+      "category": "MAINTAINABILITY",
+      "file": "start_gui.py",
+      "line": 41,
+      "message": "print() statt Logging verwendet",
+      "suggestion": "logger.info() oder logger.debug() verwenden"
+    },
+    {
+      "severity": "LOW",
+      "category": "MAINTAINABILITY",
+      "file": "start_gui.py",
+      "line": 42,
+      "message": "print() statt Logging verwendet",
+      "suggestion": "logger.info() oder logger.debug() verwenden"
+    },
+    {
+      "severity": "LOW",
+      "category": "MAINTAINABILITY",
+      "file": "start_gui.py",
+      "line": 43,
+      "message": "print() statt Logging verwendet",
+      "suggestion": "logger.info() oder logger.debug() verwenden"
+    },
+    {
+      "severity": "LOW",
+      "category": "MAINTAINABILITY",
+      "file": "start_gui.py",
+      "line": 44,
+      "message": "print() statt Logging verwendet",
+      "suggestion": "logger.info() oder logger.debug() verwenden"
+    },
+    {
+      "severity": "LOW",
+      "category": "MAINTAINABILITY",
+      "file": "start_gui.py",
+      "line": 53,
+      "message": "print() statt Logging verwendet",
+      "suggestion": "logger.info() oder logger.debug() verwenden"
+    },
+    {
+      "severity": "LOW",
+      "category": "MAINTAINABILITY",
+      "file": "start_gui.py",
+      "line": 54,
+      "message": "print() statt Logging verwendet",
+      "suggestion": "logger.info() oder logger.debug() verwenden"
+    },
+    {
+      "severity": "MEDIUM",
+      "category": "MAINTAINABILITY",
+      "file": "gui.py",
+      "line": 81,
+      "message": "Funktion 'load_css' ist sehr lang (153 Zeilen)",
+      "suggestion": "Funktion in kleinere Teile aufteilen"
+    },
+    {
+      "severity": "MEDIUM",
+      "category": "MAINTAINABILITY",
+      "file": "gui.py",
+      "line": 240,
+      "message": "Funktion 'get_visualizer_info' ist sehr lang (94 Zeilen)",
+      "suggestion": "Funktion in kleinere Teile aufteilen"
+    },
+    {
+      "severity": "MEDIUM",
+      "category": "MAINTAINABILITY",
+      "file": "gui.py",
+      "line": 429,
+      "message": "Funktion 'render_video_with_progress' ist sehr lang (71 Zeilen)",
+      "suggestion": "Funktion in kleinere Teile aufteilen"
+    },
+    {
+      "severity": "MEDIUM",
+      "category": "MAINTAINABILITY",
+      "file": "gui.py",
+      "line": 562,
+      "message": "Funktion 'render_start_page' ist sehr lang (87 Zeilen)",
+      "suggestion": "Funktion in kleinere Teile aufteilen"
+    },
+    {
+      "severity": "MEDIUM",
+      "category": "MAINTAINABILITY",
+      "file": "gui.py",
+      "line": 651,
+      "message": "Funktion 'render_visualizer_page' ist sehr lang (120 Zeilen)",
+      "suggestion": "Funktion in kleinere Teile aufteilen"
+    },
+    {
+      "severity": "MEDIUM",
+      "category": "MAINTAINABILITY",
+      "file": "gui.py",
+      "line": 773,
+      "message": "Funktion 'render_settings_page' ist sehr lang (185 Zeilen)",
+      "suggestion": "Funktion in kleinere Teile aufteilen"
+    },
+    {
+      "severity": "MEDIUM",
+      "category": "MAINTAINABILITY",
+      "file": "gui.py",
+      "line": 960,
+      "message": "Funktion 'render_help_page' ist sehr lang (68 Zeilen)",
+      "suggestion": "Funktion in kleinere Teile aufteilen"
+    },
+    {
+      "severity": "MEDIUM",
+      "category": "MAINTAINABILITY",
+      "file": "gui_modern.py",
+      "line": 438,
+      "message": "Funktion 'init_session_state' ist sehr lang (52 Zeilen)",
+      "suggestion": "Funktion in kleinere Teile aufteilen"
+    },
+    {
+      "severity": "MEDIUM",
+      "category": "MAINTAINABILITY",
+      "file": "gui_modern.py",
+      "line": 496,
+      "message": "Funktion 'get_visualizer_info' ist sehr lang (81 Zeilen)",
+      "suggestion": "Funktion in kleinere Teile aufteilen"
+    },
+    {
+      "severity": "MEDIUM",
+      "category": "MAINTAINABILITY",
+      "file": "gui_modern.py",
+      "line": 652,
+      "message": "Funktion 'render_upload_page' ist sehr lang (68 Zeilen)",
+      "suggestion": "Funktion in kleinere Teile aufteilen"
+    },
+    {
+      "severity": "MEDIUM",
+      "category": "MAINTAINABILITY",
+      "file": "gui_modern.py",
+      "line": 722,
+      "message": "Funktion 'render_visualize_page' ist sehr lang (79 Zeilen)",
+      "suggestion": "Funktion in kleinere Teile aufteilen"
+    },
+    {
+      "severity": "MEDIUM",
+      "category": "MAINTAINABILITY",
+      "file": "gui_modern.py",
+      "line": 803,
+      "message": "Funktion 'render_customize_page' ist sehr lang (137 Zeilen)",
+      "suggestion": "Funktion in kleinere Teile aufteilen"
+    },
+    {
+      "severity": "MEDIUM",
+      "category": "MAINTAINABILITY",
+      "file": "gui_modern.py",
+      "line": 942,
+      "message": "Funktion 'render_export_page' ist sehr lang (125 Zeilen)",
+      "suggestion": "Funktion in kleinere Teile aufteilen"
+    },
+    {
+      "severity": "MEDIUM",
+      "category": "MAINTAINABILITY",
+      "file": "gui_modern.py",
+      "line": 1073,
+      "message": "Funktion 'render_presets_page' ist sehr lang (120 Zeilen)",
+      "suggestion": "Funktion in kleinere Teile aufteilen"
+    },
+    {
+      "severity": "MEDIUM",
+      "category": "MAINTAINABILITY",
+      "file": "gui_modern.py",
+      "line": 1199,
+      "message": "Funktion 'render_visualizer_wizard' ist sehr lang (151 Zeilen)",
+      "suggestion": "Funktion in kleinere Teile aufteilen"
+    },
+    {
+      "severity": "MEDIUM",
+      "category": "MAINTAINABILITY",
+      "file": "gui_modern.py",
+      "line": 1508,
+      "message": "Funktion 'main' ist sehr lang (132 Zeilen)",
+      "suggestion": "Funktion in kleinere Teile aufteilen"
+    },
+    {
+      "severity": "MEDIUM",
+      "category": "MAINTAINABILITY",
+      "file": "gui_modern_fixed.py",
+      "line": 267,
+      "message": "Funktion 'get_visualizer_info' ist sehr lang (81 Zeilen)",
+      "suggestion": "Funktion in kleinere Teile aufteilen"
+    },
+    {
+      "severity": "MEDIUM",
+      "category": "MAINTAINABILITY",
+      "file": "gui_modern_fixed.py",
+      "line": 423,
+      "message": "Funktion 'render_upload_page' ist sehr lang (64 Zeilen)",
+      "suggestion": "Funktion in kleinere Teile aufteilen"
+    },
+    {
+      "severity": "MEDIUM",
+      "category": "MAINTAINABILITY",
+      "file": "gui_modern_fixed.py",
+      "line": 489,
+      "message": "Funktion 'render_visualize_page' ist sehr lang (76 Zeilen)",
+      "suggestion": "Funktion in kleinere Teile aufteilen"
+    },
+    {
+      "severity": "MEDIUM",
+      "category": "MAINTAINABILITY",
+      "file": "gui_modern_fixed.py",
+      "line": 567,
+      "message": "Funktion 'render_customize_page' ist sehr lang (140 Zeilen)",
+      "suggestion": "Funktion in kleinere Teile aufteilen"
+    },
+    {
+      "severity": "MEDIUM",
+      "category": "MAINTAINABILITY",
+      "file": "gui_modern_fixed.py",
+      "line": 709,
+      "message": "Funktion 'render_export_page' ist sehr lang (158 Zeilen)",
+      "suggestion": "Funktion in kleinere Teile aufteilen"
+    },
+    {
+      "severity": "MEDIUM",
+      "category": "MAINTAINABILITY",
+      "file": "gui_modern_fixed.py",
+      "line": 873,
+      "message": "Funktion 'render_visualizer_wizard' ist sehr lang (150 Zeilen)",
+      "suggestion": "Funktion in kleinere Teile aufteilen"
+    },
+    {
+      "severity": "MEDIUM",
+      "category": "MAINTAINABILITY",
+      "file": "gui_modern_fixed.py",
+      "line": 1025,
+      "message": "Funktion 'generate_template_code' ist sehr lang (153 Zeilen)",
+      "suggestion": "Funktion in kleinere Teile aufteilen"
+    },
+    {
+      "severity": "MEDIUM",
+      "category": "MAINTAINABILITY",
+      "file": "gui_modern_fixed.py",
+      "line": 1184,
+      "message": "Funktion 'main' ist sehr lang (65 Zeilen)",
+      "suggestion": "Funktion in kleinere Teile aufteilen"
+    },
+    {
+      "severity": "MEDIUM",
+      "category": "MAINTAINABILITY",
+      "file": "main.py",
+      "line": 92,
+      "message": "Funktion 'create_template' ist sehr lang (60 Zeilen)",
+      "suggestion": "Funktion in kleinere Teile aufteilen"
+    },
+    {
+      "severity": "MEDIUM",
+      "category": "MAINTAINABILITY",
+      "file": "src\\analyzer.py",
+      "line": 143,
+      "message": "Funktion '_extract_features' ist sehr lang (103 Zeilen)",
+      "suggestion": "Funktion in kleinere Teile aufteilen"
+    },
+    {
+      "severity": "MEDIUM",
+      "category": "MAINTAINABILITY",
+      "file": "src\\auto_save.py",
+      "line": 74,
+      "message": "Funktion 'save' ist sehr lang (53 Zeilen)",
+      "suggestion": "Funktion in kleinere Teile aufteilen"
+    },
+    {
+      "severity": "MEDIUM",
+      "category": "MAINTAINABILITY",
+      "file": "src\\keyboard_shortcuts.py",
+      "line": 77,
+      "message": "Funktion 'get_js_component' ist sehr lang (52 Zeilen)",
+      "suggestion": "Funktion in kleinere Teile aufteilen"
+    },
+    {
+      "severity": "MEDIUM",
+      "category": "MAINTAINABILITY",
+      "file": "src\\parallel_renderer.py",
+      "line": 63,
+      "message": "Funktion 'render_frames_parallel' ist sehr lang (62 Zeilen)",
+      "suggestion": "Funktion in kleinere Teile aufteilen"
+    },
+    {
+      "severity": "MEDIUM",
+      "category": "MAINTAINABILITY",
+      "file": "src\\parallel_renderer.py",
+      "line": 143,
+      "message": "Funktion 'render_to_file' ist sehr lang (60 Zeilen)",
+      "suggestion": "Funktion in kleinere Teile aufteilen"
+    },
+    {
+      "severity": "MEDIUM",
+      "category": "MAINTAINABILITY",
+      "file": "src\\pipeline.py",
+      "line": 96,
+      "message": "Funktion '_render_video' ist sehr lang (120 Zeilen)",
+      "suggestion": "Funktion in kleinere Teile aufteilen"
+    },
+    {
+      "severity": "MEDIUM",
+      "category": "MAINTAINABILITY",
+      "file": "src\\preset_manager.py",
+      "line": 462,
+      "message": "Funktion 'render_preset_card' ist sehr lang (56 Zeilen)",
+      "suggestion": "Funktion in kleinere Teile aufteilen"
+    },
+    {
+      "severity": "MEDIUM",
+      "category": "MAINTAINABILITY",
+      "file": "src\\realtime.py",
+      "line": 454,
+      "message": "Funktion 'render_realtime_page' ist sehr lang (122 Zeilen)",
+      "suggestion": "Funktion in kleinere Teile aufteilen"
+    },
+    {
+      "severity": "MEDIUM",
+      "category": "MAINTAINABILITY",
+      "file": "src\\realtime.py",
+      "line": 188,
+      "message": "Funktion 'process' ist sehr lang (60 Zeilen)",
+      "suggestion": "Funktion in kleinere Teile aufteilen"
+    },
+    {
+      "severity": "MEDIUM",
+      "category": "MAINTAINABILITY",
+      "file": "src\\settings.py",
+      "line": 176,
+      "message": "Verwendung von 'global' statement",
+      "suggestion": "Dependency Injection oder Klassen-Attribute verwenden"
+    },
+    {
+      "severity": "MEDIUM",
+      "category": "MAINTAINABILITY",
+      "file": "src\\settings.py",
+      "line": 184,
+      "message": "Verwendung von 'global' statement",
+      "suggestion": "Dependency Injection oder Klassen-Attribute verwenden"
+    },
+    {
+      "severity": "MEDIUM",
+      "category": "MAINTAINABILITY",
+      "file": "src\\utils.py",
+      "line": 89,
+      "message": "Funktion 'validate_audio_file' ist sehr lang (51 Zeilen)",
+      "suggestion": "Funktion in kleinere Teile aufteilen"
+    },
+    {
+      "severity": "MEDIUM",
+      "category": "MAINTAINABILITY",
+      "file": "src\\visuals\\01_pulsing_core.py",
+      "line": 31,
+      "message": "Funktion 'render_frame' ist sehr lang (89 Zeilen)",
+      "suggestion": "Funktion in kleinere Teile aufteilen"
+    },
+    {
+      "severity": "MEDIUM",
+      "category": "MAINTAINABILITY",
+      "file": "src\\visuals\\02_spectrum_bars.py",
+      "line": 29,
+      "message": "Funktion 'render_frame' ist sehr lang (86 Zeilen)",
+      "suggestion": "Funktion in kleinere Teile aufteilen"
+    },
+    {
+      "severity": "MEDIUM",
+      "category": "MAINTAINABILITY",
+      "file": "src\\visuals\\03_chroma_field.py",
+      "line": 41,
+      "message": "Funktion 'render_frame' ist sehr lang (82 Zeilen)",
+      "suggestion": "Funktion in kleinere Teile aufteilen"
+    },
+    {
+      "severity": "MEDIUM",
+      "category": "MAINTAINABILITY",
+      "file": "src\\visuals\\04_particle_swarm.py",
+      "line": 57,
+      "message": "Funktion 'render_frame' ist sehr lang (96 Zeilen)",
+      "suggestion": "Funktion in kleinere Teile aufteilen"
+    },
+    {
+      "severity": "MEDIUM",
+      "category": "MAINTAINABILITY",
+      "file": "src\\visuals\\05_typographic.py",
+      "line": 36,
+      "message": "Funktion 'render_frame' ist sehr lang (108 Zeilen)",
+      "suggestion": "Funktion in kleinere Teile aufteilen"
+    },
+    {
+      "severity": "MEDIUM",
+      "category": "MAINTAINABILITY",
+      "file": "src\\visuals\\06_neon_oscilloscope.py",
+      "line": 29,
+      "message": "Funktion 'render_frame' ist sehr lang (79 Zeilen)",
+      "suggestion": "Funktion in kleinere Teile aufteilen"
+    },
+    {
+      "severity": "MEDIUM",
+      "category": "MAINTAINABILITY",
+      "file": "src\\visuals\\07_sacred_mandala.py",
+      "line": 39,
+      "message": "Funktion 'render_frame' ist sehr lang (78 Zeilen)",
+      "suggestion": "Funktion in kleinere Teile aufteilen"
+    },
+    {
+      "severity": "MEDIUM",
+      "category": "MAINTAINABILITY",
+      "file": "src\\visuals\\08_liquid_blobs.py",
+      "line": 43,
+      "message": "Funktion 'render_frame' ist sehr lang (61 Zeilen)",
+      "suggestion": "Funktion in kleinere Teile aufteilen"
+    },
+    {
+      "severity": "MEDIUM",
+      "category": "MAINTAINABILITY",
+      "file": "src\\visuals\\08_liquid_blobs.py",
+      "line": 106,
+      "message": "Funktion '_draw_metaballs' ist sehr lang (56 Zeilen)",
+      "suggestion": "Funktion in kleinere Teile aufteilen"
+    },
+    {
+      "severity": "MEDIUM",
+      "category": "MAINTAINABILITY",
+      "file": "src\\visuals\\09_neon_wave_circle.py",
+      "line": 44,
+      "message": "Funktion 'render_frame' ist sehr lang (98 Zeilen)",
+      "suggestion": "Funktion in kleinere Teile aufteilen"
+    },
+    {
+      "severity": "MEDIUM",
+      "category": "MAINTAINABILITY",
+      "file": "src\\visuals\\10_frequency_flower.py",
+      "line": 34,
+      "message": "Funktion 'render_frame' ist sehr lang (98 Zeilen)",
+      "suggestion": "Funktion in kleinere Teile aufteilen"
+    },
+    {
+      "severity": "MEDIUM",
+      "category": "MAINTAINABILITY",
+      "file": "src\\visuals\\10_frequency_flower.py",
+      "line": 134,
+      "message": "Funktion '_draw_petal' ist sehr lang (59 Zeilen)",
+      "suggestion": "Funktion in kleinere Teile aufteilen"
+    },
+    {
+      "severity": "MEDIUM",
+      "category": "MAINTAINABILITY",
+      "file": "src\\visuals\\11_waveform_line.py",
+      "line": 32,
+      "message": "Funktion 'render_frame' ist sehr lang (85 Zeilen)",
+      "suggestion": "Funktion in kleinere Teile aufteilen"
+    },
+    {
+      "severity": "MEDIUM",
+      "category": "MAINTAINABILITY",
+      "file": "src\\visuals\\12_3d_spectrum.py",
+      "line": 64,
+      "message": "Funktion 'render_frame' ist sehr lang (100 Zeilen)",
+      "suggestion": "Funktion in kleinere Teile aufteilen"
+    },
+    {
+      "severity": "MEDIUM",
+      "category": "MAINTAINABILITY",
+      "file": "src\\visuals\\13_circular_wave.py",
+      "line": 30,
+      "message": "Funktion 'render_frame' ist sehr lang (101 Zeilen)",
+      "suggestion": "Funktion in kleinere Teile aufteilen"
+    },
+    {
+      "severity": "MEDIUM",
+      "category": "MAINTAINABILITY",
+      "file": "src\\visuals\\webgl_3d.py",
+      "line": 320,
+      "message": "Funktion 'export' ist sehr lang (51 Zeilen)",
+      "suggestion": "Funktion in kleinere Teile aufteilen"
+    },
+    {
+      "severity": "MEDIUM",
+      "category": "MAINTAINABILITY",
+      "file": "src\\visuals\\webgl_3d.py",
+      "line": 437,
+      "message": "Funktion 'render_frame' ist sehr lang (76 Zeilen)",
+      "suggestion": "Funktion in kleinere Teile aufteilen"
+    },
+    {
+      "severity": "MEDIUM",
+      "category": "MAINTAINABILITY",
+      "file": "src\\visuals\\webgl_3d.py",
+      "line": 541,
+      "message": "Funktion 'render_frame' ist sehr lang (61 Zeilen)",
+      "suggestion": "Funktion in kleinere Teile aufteilen"
+    }
+  ]
+}

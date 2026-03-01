@@ -3,36 +3,39 @@ Type Definitions für das Audio Visualizer Pro System.
 Pydantic Models für alle Konfigurationen und Audio-Features.
 """
 
-from pydantic import BaseModel, Field, ConfigDict
-from typing import Literal, List, Dict, Optional, Tuple
+from pydantic import BaseModel, Field, ConfigDict, field_validator
+from typing import Literal, Dict, Optional, Tuple
 import numpy as np
 
 
 class AudioFeatures(BaseModel):
     """Schema für alle Audio-Features. Einheitlich für alle Renderer."""
+
     model_config = ConfigDict(arbitrary_types_allowed=True)
-    
+
     duration: float
     sample_rate: int
     fps: int = 60
-    
+
     @property
     def frame_count(self) -> int:
         """Berechnet die Anzahl der Frames basierend auf Dauer und FPS."""
+        if self.fps <= 0:
+            return 0
         return int(self.duration * self.fps)
-    
+
     # Zeitliche Features (Frame-basiert, Länge = duration * fps)
     rms: np.ndarray = Field(..., description="Loudness 0.0-1.0")
     onset: np.ndarray = Field(..., description="Beat detection 0.0-1.0")
     spectral_centroid: np.ndarray = Field(..., description="Brightness")
     spectral_rolloff: np.ndarray = Field(..., description="Bandwidth")
     zero_crossing_rate: np.ndarray = Field(..., description="Noisiness vs Tonal")
-    
+
     # Tonaale Features (für Chroma-Color-Mapping)
     chroma: np.ndarray = Field(..., description="Shape: (12, frames) - C,C#,D...")
     mfcc: np.ndarray = Field(..., description="Timbre fingerprint")
     tempogram: np.ndarray = Field(..., description="Rhythmic structure")
-    
+
     # Metadaten
     tempo: float
     key: Optional[str] = None  # "C major", "A minor" etc.
@@ -41,15 +44,30 @@ class AudioFeatures(BaseModel):
 
 class VisualConfig(BaseModel):
     """Jeder Visualizer hat diese Konfiguration."""
+
     type: str  # "pulsing_core", "spectrum_bars" etc.
     params: Dict = Field(default_factory=dict)
     colors: Dict[str, str] = Field(default_factory=dict)  # Hex-Codes
     resolution: Tuple[int, int] = (1920, 1080)
-    fps: int = 60
+    fps: int = Field(
+        default=60, ge=1, le=240, description="FPS muss zwischen 1 und 240 liegen"
+    )
+
+    @field_validator("resolution")
+    @classmethod
+    def validate_resolution(cls, v):
+        """Validiert die Auflösung."""
+        width, height = v
+        if width < 1 or height < 1:
+            raise ValueError("Auflösung muss mindestens 1x1 sein")
+        if width > 7680 or height > 4320:
+            raise ValueError("Auflösung zu groß (max 8K)")
+        return v
 
 
 class ProjectConfig(BaseModel):
     """Gesamtkonfiguration einer Render-Job."""
+
     audio_file: str
     output_file: str
     visual: VisualConfig

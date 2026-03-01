@@ -123,7 +123,7 @@ def load_and_validate_config(config_path: str) -> ProjectConfigSchema:
     """
     import json
     
-    with open(config_path, 'r') as f:
+    with open(config_path, 'r', encoding='utf-8') as f:
         config_dict = json.load(f)
     
     return validate_config(config_dict)

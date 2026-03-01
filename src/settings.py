@@ -15,61 +15,61 @@ from dataclasses import dataclass, field
 class Settings:
     """
     Anwendungs-Einstellungen.
-    
+
     Werte können via Umgebungsvariablen oder .env-Datei überschrieben werden.
     """
-    
+
     # Cache-Einstellungen
     cache_dir: Path = field(default_factory=lambda: Path(".cache/audio_features"))
     max_cache_size_gb: float = 10.0
-    
+
     # Render-Einstellungen
     default_resolution: Tuple[int, int] = (1920, 1080)
     default_fps: int = 60
     default_preview_duration: float = 5.0
     preview_resolution: Tuple[int, int] = (854, 480)
     preview_fps: int = 30
-    
+
     # Pfade
     temp_dir: Path = field(default_factory=lambda: Path(tempfile.gettempdir()))
     output_dir: Path = field(default_factory=lambda: Path("output"))
-    
+
     # FFmpeg
     ffmpeg_preset: str = "medium"
     ffmpeg_crf: int = 23
     ffmpeg_audio_bitrate: str = "320k"
-    
+
     # Logging
     log_level: str = "INFO"
     log_file: Optional[Path] = None
-    
+
     # GUI
     gui_port: int = 8501
     gui_host: str = "localhost"
-    
+
     def __post_init__(self):
         """Stellt sicher, dass alle Verzeichnisse existieren."""
         self.cache_dir.mkdir(parents=True, exist_ok=True)
         self.output_dir.mkdir(parents=True, exist_ok=True)
-    
+
     @classmethod
     def from_env(cls, env_file: Optional[Path] = None) -> "Settings":
         """
         Lädt Settings aus Umgebungsvariablen und optionaler .env-Datei.
-        
+
         Args:
             env_file: Pfad zur .env-Datei (default: .env im aktuellen Verzeichnis)
-        
+
         Returns:
             Settings-Instanz mit geladenen Werten
         """
         # Lade .env-Datei wenn vorhanden
         if env_file is None:
             env_file = Path(".env")
-        
+
         if env_file.exists():
             cls._load_dotenv(env_file)
-        
+
         # Erstelle Settings mit Umgebungsvariablen
         return cls(
             cache_dir=Path(os.getenv("AV_CACHE_DIR", ".cache/audio_features")),
@@ -89,43 +89,45 @@ class Settings:
             ffmpeg_crf=int(os.getenv("AV_FFMPEG_CRF", "23")),
             ffmpeg_audio_bitrate=os.getenv("AV_FFMPEG_AUDIO_BITRATE", "320k"),
             log_level=os.getenv("AV_LOG_LEVEL", "INFO"),
-            log_file=Path(os.getenv("AV_LOG_FILE")) if os.getenv("AV_LOG_FILE") else None,
+            log_file=(
+                Path(os.getenv("AV_LOG_FILE")) if os.getenv("AV_LOG_FILE") else None
+            ),
             gui_port=int(os.getenv("AV_GUI_PORT", "8501")),
             gui_host=os.getenv("AV_GUI_HOST", "localhost"),
         )
-    
+
     @staticmethod
     def _load_dotenv(env_file: Path):
         """Lädt Variablen aus einer .env-Datei."""
-        with open(env_file, 'r', encoding='utf-8') as f:
+        with open(env_file, "r", encoding="utf-8") as f:
             for line in f:
                 line = line.strip()
-                if not line or line.startswith('#'):
+                if not line or line.startswith("#"):
                     continue
-                if '=' in line:
-                    key, value = line.split('=', 1)
-                    os.environ[key.strip()] = value.strip().strip('"\'')
-    
+                if "=" in line:
+                    key, value = line.split("=", 1)
+                    os.environ[key.strip()] = value.strip().strip("\"'")
+
     @staticmethod
     def _parse_resolution(res_str: str) -> Tuple[int, int]:
         """Parst '1920x1080' -> (1920, 1080)."""
-        width, height = res_str.lower().split('x')
+        width, height = res_str.lower().split("x")
         return (int(width), int(height))
-    
+
     def get_cache_size_mb(self) -> float:
         """Berechnet aktuelle Cache-Größe in MB."""
         if not self.cache_dir.exists():
             return 0.0
-        
+
         total_size = sum(
             f.stat().st_size for f in self.cache_dir.rglob("*") if f.is_file()
         )
         return total_size / (1024 * 1024)
-    
+
     def is_cache_full(self) -> bool:
         """Prüft ob Cache-Limit erreicht ist."""
         return self.get_cache_size_mb() > (self.max_cache_size_gb * 1024)
-    
+
     def create_env_template(self, output_path: Path = Path(".env.example")):
         """Erstellt eine Beispiel-.env-Datei."""
         template = """# Audio Visualizer Pro - Konfiguration
@@ -161,7 +163,7 @@ AV_LOG_LEVEL=INFO
 AV_GUI_PORT=8501
 AV_GUI_HOST=localhost
 """
-        output_path.write_text(template, encoding='utf-8')
+        output_path.write_text(template, encoding="utf-8")
         return output_path
 
 
