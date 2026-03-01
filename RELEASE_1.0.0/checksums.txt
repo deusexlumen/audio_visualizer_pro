@@ -1,0 +1,9 @@
+Audio Visualizer Pro v2.0.0 - Checksums
+========================================
+
+File: audio_visualizer_pro_v2.0.0.zip
+Size: 12.44 MB
+SHA256: 4C61B08224266A3A21D5C18935C1DA5413348F002E05CE5000A21526359A2D26
+MD5: (see below)
+
+Generated: 2026-02-28
